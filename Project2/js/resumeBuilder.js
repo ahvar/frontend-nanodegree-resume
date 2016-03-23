@@ -117,26 +117,26 @@ $.getJSON('resumeDetail.json', function(data) {
 			"use strict";
 			for(var i = 0; i <= data.education.schools.length; i++) {
 				$("#education").append(HTMLschoolStart);
-				for(var schoolDetail in data.education.schools[i]) {
-					formattedschoolName = HTMLschoolName.replace("%data%", data.education.schools[schoolDetail].name);
-					formattedschoolDegree = HTMLschoolDegree.replace("%data%", data.education.schools[schoolDetail].degree);
-					formattedschoolDates = HTMLschoolDates.replace("%data%", data.education.schools[schoolDetail].dates);
-					formattedschoolLocation = HTMLschoolLocation.replace("%data%", data.education.schools[schoolDetail].location);
-					formattedschoolMajor = HTMLschoolMajor.replace("%data%", data.education.schools[schoolDetail].majors);
-					$(".education-entry:last").append(formattedschoolName + formattedschoolDegree, formattedschoolDates, 
-						formattedschoolLocation, formattedschoolMajor);
+				console.log(data.education.schools[i].name);
+				formattedschoolName = HTMLschoolName.replace("%data%",data.education.schools[i].name);
+				formattedschoolDegree = HTMLschoolDegree.replace("%data%", data.education.schools[i].degree);
+				formattedschoolDates = HTMLschoolDates.replace("%data%", data.education.schools[i].dates);
+				formattedschoolLocation = HTMLschoolLocation.replace("%data%", data.education.schools[i].location);
+				$(".education-entry:last").append(formattedschoolName + formattedschoolDegree,formattedschoolDates,
+						formattedschoolLocation);
+				for(var j = 0; j <= data.education.schools[i].majors.length; j++) {
+					formattedschoolMajor = HTMLschoolMajor.replace("%data%", data.education.schools[i].majors[j]);
+					$(".education-entry:last").append(formattedschoolMajor);
 				}
 			}
-			for(var i = 0; i <= data.education.onlineCourses[i]; i++) {
+			
+			for(var i = 0; i <= data.education.onlineCourses.length; i++) {
 				$("#education").append(HTMLonlineClasses);
-				for (var onlineCourse in data.education.onlineCourses[i]) {
-					$("#education").append(HTMLschoolStart);
-					formattedonlineTitle = HTMLonlineTitle.replace("%data%", data.education.onlineCourses[onlineCourse].title);
-					formattedonlineSchool = HTMLonlineSchool.replace("%data%", data.education.onlineCourses[onlineCourse].school);
-					formattedonlineDate = HTMLonlineDates.replace("%data%", data.education.onlineCourses[onlineCourse].date);
-					formattedURL = HTMLonlineURL.replace("%data%", data.education.onlineCourses[onlineCourse].url);
-					$(".education-entry:last").append(formattedonlineTitle + formattedonlineSchool, formattedonlineDate, formattedURL);
-				}
+				formattedonlineTitle = HTMLonlineTitle.replace("%data%", data.education.onlineCourses[i].title);
+				formattedonlineSchool = HTMLonlineSchool.replace("%data%", data.education.onlineCourses[i].school);
+				formattedonlineDate = HTMLonlineDates.replace("%data%", data.education.onlineCourses[i].date);
+				formattedURL = HTMLonlineURL.replace("%data%", data.education.onlineCourses[i].url);
+				$(".education-entry:last").append(formattedonlineTitle + formattedonlineSchool, formattedonlineDate, formattedURL);	
 			}
 		};
 		
@@ -146,17 +146,14 @@ $.getJSON('resumeDetail.json', function(data) {
 		 */
 		data.work.display = function() {
 			"use strict";
-			for(var i = 0; i <= data.work.jobs[i]) {
+			for(var i = 0; i <= data.work.jobs[i]; i++) {
 				$("#workExperience").append(HTMLworkStart);
-				for(var job in data.work.jobs[job]) {
-					$("#work-foldable-content").append(HTMLworkStart);
-					formattedEmployer = HTMLworkEmployer.replace("%data%",data.work.jobs[job].employer);
-					formattedTitle = HTMLworkTitle.replace("%data%",data.work.jobs[job].title);
-					formattedLocation = HTMLworkLocation.replace("%data%",data.work.jobs[job].location);
-					formattedDates = HTMLworkDates.replace("%data%",data.work.jobs[job].dates);
-					formattedDescription = HTMLworkDescription.replace("%data%",data.work.jobs[job].description);
-					$(".work-entry:last").append(formattedEmployer,formattedTitle,formattedLocation,formattedDates,formattedDescription);
-				}
+				formattedEmployer = HTMLworkEmployer.replace("%data%",data.work.jobs[i].employer);
+				formattedTitle = HTMLworkTitle.replace("%data%",data.work.jobs[i].title);
+				formattedLocation = HTMLworkLocation.replace("%data%",data.work.jobs[i].location);
+				formattedDates = HTMLworkDates.replace("%data%",data.work.jobs[i].dates);
+				formattedDescription = HTMLworkDescription.replace("%data%",data.work.jobs[i].description);
+				$(".work-entry:last").append(formattedEmployer,formattedTitle,formattedLocation,formattedDates,formattedDescription);
 			}
 		};
 		
@@ -183,9 +180,6 @@ $.getJSON('resumeDetail.json', function(data) {
 		data.projects.display();
 		data.education.display();
 		data.bio.display();
-		$("#main").append(internationalizeButton);
-		$("#mapDiv").append(googleMap);
-		
 	});
 
 	function inName(name) {
@@ -196,6 +190,8 @@ $.getJSON('resumeDetail.json', function(data) {
 	}
 	
 });
+$("#main").append(internationalizeButton);
+$("#mapDiv").append(googleMap);
 
 	 
 	 		
