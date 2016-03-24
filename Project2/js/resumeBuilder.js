@@ -42,7 +42,7 @@ var formattedprojectDates;
 var formattedprojectDescription;
 var formattedprojectImage;
 
-
+$.ajaxSetup( {"async": false} );
 /*
  * jQuery.getJSON fetches/parses JSON data in resumeDetail.json and passes the resulting object
  * to the callback function 
@@ -78,7 +78,7 @@ $.getJSON('resumeDetail.json', function(data) {
 			$("#topContacts").append(HTMLskillsStart);
 			
 			var i = 0;
-			while(data.bio.skills.length >= i) {
+			while(i < data.bio.skills.length) {
 				formattedskills = HTMLskills.replace("%data%",data.bio.skills[i].toString());
 				$("#topContacts").append(formattedskills);
 				$("#footerContacts").append(formattedskills);	
@@ -115,22 +115,24 @@ $.getJSON('resumeDetail.json', function(data) {
 		 */
 		data.education.display = function() {
 			"use strict";
-			for(var i = 0; i <= data.education.schools.length; i++) {
+			for(var i = 0; i < data.education.schools.length; i++) {
 				$("#education").append(HTMLschoolStart);
-				console.log(data.education.schools[i].name);
+				console.log(HTMLschoolName.replace("%data%",data.education.schools[i].name));
+				console.log(data.education.schools[i].degree);
+				console.log(data.education.schools[i].dates);
 				formattedschoolName = HTMLschoolName.replace("%data%",data.education.schools[i].name);
 				formattedschoolDegree = HTMLschoolDegree.replace("%data%", data.education.schools[i].degree);
 				formattedschoolDates = HTMLschoolDates.replace("%data%", data.education.schools[i].dates);
 				formattedschoolLocation = HTMLschoolLocation.replace("%data%", data.education.schools[i].location);
 				$(".education-entry:last").append(formattedschoolName + formattedschoolDegree,formattedschoolDates,
 						formattedschoolLocation);
-				for(var j = 0; j <= data.education.schools[i].majors.length; j++) {
+				for(var j = 0; j < data.education.schools[i].majors.length; j++) {
 					formattedschoolMajor = HTMLschoolMajor.replace("%data%", data.education.schools[i].majors[j]);
 					$(".education-entry:last").append(formattedschoolMajor);
 				}
 			}
 			
-			for(var i = 0; i <= data.education.onlineCourses.length; i++) {
+			for(var i = 0; i < data.education.onlineCourses.length; i++) {
 				$("#education").append(HTMLonlineClasses);
 				formattedonlineTitle = HTMLonlineTitle.replace("%data%", data.education.onlineCourses[i].title);
 				formattedonlineSchool = HTMLonlineSchool.replace("%data%", data.education.onlineCourses[i].school);
@@ -146,7 +148,7 @@ $.getJSON('resumeDetail.json', function(data) {
 		 */
 		data.work.display = function() {
 			"use strict";
-			for(var i = 0; i <= data.work.jobs[i]; i++) {
+			for(var i = 0; i < data.work.jobs[i]; i++) {
 				$("#workExperience").append(HTMLworkStart);
 				formattedEmployer = HTMLworkEmployer.replace("%data%",data.work.jobs[i].employer);
 				formattedTitle = HTMLworkTitle.replace("%data%",data.work.jobs[i].title);
@@ -163,13 +165,13 @@ $.getJSON('resumeDetail.json', function(data) {
 		 */
 		data.projects.display = function() {
 			"use strict";
-			for(var i = 0; i <= data.projects[i]; i++) {
+			for(var i = 0; i < data.projects[i]; i++) {
 				$("#projects").append(HTMLprojectStart);
 				formattedprojectTitle = HTMLprojectTitle.replace("%data%", data.projects[i].title);
 				formattedprojectDates = HTMLprojectDates.replace("%data%", data.projects[i].dates);
 				formattedprojectDescription = HTMLprojectDescription.replace("%data%", data.projects[i].description);
 				$(".project-entry:last").append(formattedprojectTitle, formattedprojectDates, formattedprojectDescription);
-				for(var j = 0; j <= data.projects[i].images[j].length; j++) {
+				for(var j = 0; j < data.projects[i].images[j].length; j++) {
 					formattedprojectImage = HTMLprojectImage.replace("%data%", data.projects[i].images[j]);
 					$(".project-entry:last").append(formattedImage);
 				}
@@ -180,6 +182,8 @@ $.getJSON('resumeDetail.json', function(data) {
 		data.projects.display();
 		data.education.display();
 		data.bio.display();
+		$("#main").append(internationalizeButton);
+		$("#mapDiv").append(googleMap);
 	});
 
 	function inName(name) {
@@ -190,8 +194,7 @@ $.getJSON('resumeDetail.json', function(data) {
 	}
 	
 });
-$("#main").append(internationalizeButton);
-$("#mapDiv").append(googleMap);
+$.ajaxSetup( {"async": true} );
 
 	 
 	 		
